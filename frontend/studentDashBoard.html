@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="studentDashboard.css" />
+    <script src="studentDashBoard.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1 id="dashboardTitle">Welcome, Student</h1>
+      <button class="btn logout-btn" onclick="logout();">Logout</button>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Search for Subject Teachers</h2>
+        <div class="search-bar">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Enter subject name..."
+          />
+          <button class="btn primary-btn" onclick="searchTeacher()">
+            Search
+          </button>
+        </div>
+      </section>
+
+      <section class="card action-buttons">
+        <button class="btn secondary-btn" onclick="seeAppointments()">
+          See Appointments Status
+        </button>
+      </section>
+
+      <section id="results" class="card" style="display: none">
+        <h3>Results will appear here...</h3>
+      </section>
+
+      <section id="dynamicSection" class="card" style="display: none">
+        <h3 id="dynamicTitle"></h3>
+        <table id="dynamicTable" class="styled-table">
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="studentDashBoard.js"></script>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="teacherDashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Welcome, Teacher</h1>
+      <button class="btn logout-btn" onclick="logout();">Logout</button>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Manage Appointment Requests</h2>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap">
+          <button class="btn primary-btn" onclick="fetchAppointments()">See Requested Appointments</button>
+          <button class="btn approved-btn" onclick="fetchApprovedAppointments()">See Approved Appointments</button>
+          <button class="btn secondary-btn" onclick="fetchChatUsers()">View Messages</button>
+        </div>
+      </section>
+
+      <section id="appointmentSection" class="card" style="display: none">
+        <h3>Pending Appointments</h3>
+        <div class="table-responsive">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th id="appointmentSubjectHeading">Subject</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="appointmentBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="approvedSection" class="card" style="display: none">
+        <h3>Approved Appointments</h3>
+        <div class="table-responsive">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th id="approvedDateHeading">Date</th>
+                <th>Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="approvedBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="chatSection" class="card" style="display: none">
+        <h3>Student Messages</h3>
+        <div class="table-responsive">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="chatBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="teacherDashboard.js"></script>
+  </body>
+</html>

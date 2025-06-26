@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="AdminDashBoard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Welcome, Admin</h1>
+      <button class="btn logout-btn" onclick="logout()">Logout</button>
+    </header>
+
+    <main class="dashboard-container">
+      <!-- Action Buttons -->
+      <div class="button-group">
+        <button class="btn primary-btn" onclick="showTeachers()">See All Teachers</button>
+        <button class="btn secondary-btn" onclick="showStudents()">See All Students</button>
+        <button class="btn success-btn" onclick="showAddTeacherForm()">Add Teacher</button>
+      </div>
+
+      <!-- Teachers Table -->
+      <section id="teacherTableSection" class="card" style="display: none">
+        <h2>All Teachers</h2>
+        <div class="table-wrapper">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Subject</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="teacherTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Students Table -->
+      <section id="studentTableSection" class="card" style="display: none">
+        <h2>All Students</h2>
+        <div class="table-wrapper">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Add Teacher Form -->
+      <section id="addTeacherSection" class="card" style="display: none">
+        <h2>Add Teacher</h2>
+        <form id="addTeacherForm" class="form-grid">
+          <div class="form-group">
+            <label for="teacherName">Name</label>
+            <input type="text" id="teacherName" placeholder="Enter name" required />
+          </div>
+          <div class="form-group">
+            <label for="teacherEmail">Email</label>
+            <input type="email" id="teacherEmail" placeholder="Enter email" required />
+          </div>
+          <div class="form-group">
+            <label for="teacherPassword">Password</label>
+            <input type="password" id="teacherPassword" placeholder="Enter password" required />
+          </div>
+          <div class="form-group">
+            <label for="teacherDepartment">Department</label>
+            <input type="text" id="teacherDepartment" placeholder="Enter department" required />
+          </div>
+          <div class="form-group">
+            <label for="teacherSubject">Subject</label>
+            <input type="text" id="teacherSubject" placeholder="Enter subject" required />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn success-btn">Add Teacher</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- JavaScript Logic -->
+    <script src="AdminDashBoard.js"></script>
+  </body>
+</html>
