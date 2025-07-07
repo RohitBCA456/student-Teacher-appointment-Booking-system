@@ -96,6 +96,7 @@ const deleteAppointment = async (req, res) => {
         message: "Appointment not found",
       });
     }
+
     return res.status(200).json({
       success: true,
       message: "Appointment deleted successfully",

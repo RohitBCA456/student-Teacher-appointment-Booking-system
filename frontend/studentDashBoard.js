@@ -151,6 +151,13 @@ async function seeAppointments() {
       </tr>
     `;
 
+    // 🧠 Sort appointments by datetime (date + timeSlot)
+    data.appointments.sort((a, b) => {
+      const dateTimeA = new Date(`${a.date} ${a.timeSlot || "00:00"}`);
+      const dateTimeB = new Date(`${b.date} ${b.timeSlot || "00:00"}`);
+      return dateTimeA - dateTimeB; // ascending
+    });
+
     data.appointments.forEach((app) => {
       const formattedDate = app.date
         ? new Date(app.date).toLocaleDateString("en-CA")
@@ -158,27 +165,29 @@ async function seeAppointments() {
 
       const unreadCount = app.unreadCount || 0;
 
+      // Only allow delete if appointment is still pending
+      const deleteBtn =
+        app.status === "pending"
+          ? `<button class="icon-btn" onclick="deleteAppointment('${app._id}')">🗑️</button>`
+          : "";
+
       const row = document.createElement("tr");
       row.innerHTML = `
-  <td>${app.teacherId?.name || "Unknown"}</td>
-  <td>${formattedDate}</td>
-  <td>${app.timeSlot || "Not set"}</td>
-  <td>${app.status}</td>
-  <td>
-    <button class="icon-btn" onclick="deleteAppointment('${
-      app._id
-    }')">🗑️</button>
-    <button class="icon-btn" onclick="sendMessage('${
-      app.teacherId?._id || ""
-    }')">
-      💬 ${
-        unreadCount > 0
-          ? `<span class="unread-badge">${unreadCount}</span>`
-          : ""
-      }
-    </button>
-  </td>
-`;
+        <td>${app.teacherId?.name || "Unknown"}</td>
+        <td>${formattedDate}</td>
+        <td>${app.timeSlot || "Not set"}</td>
+        <td>${app.status}</td>
+        <td>
+          ${deleteBtn}
+          <button class="icon-btn" onclick="sendMessage('${app.teacherId?._id || ""}')">
+            💬 ${
+              unreadCount > 0
+                ? `<span class="unread-badge">${unreadCount}</span>`
+                : ""
+            }
+          </button>
+        </td>
+      `;
       tableBody.appendChild(row);
     });
   } else {
@@ -186,6 +195,8 @@ async function seeAppointments() {
     dynamicSection.style.display = "none";
   }
 }
+
+
 
 async function deleteAppointment(appointmentId) {
   try {

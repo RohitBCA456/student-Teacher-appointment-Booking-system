@@ -89,7 +89,6 @@ async function fetchAppointments() {
   }
 }
 
-
 function showConfirmOptions(iconEl, appointmentId, studentId) {
   const parent = iconEl.parentElement;
   parent.innerHTML = `
@@ -129,14 +128,25 @@ async function rejectAppointment(appointmentId, iconElement) {
   }
 }
 
+// ✅ Updated function with AM/PM time formatting
+function formatTo12Hour(time) {
+  const [hour, minute] = time.split(":");
+  const hourNum = parseInt(hour, 10);
+  const ampm = hourNum >= 12 ? "PM" : "AM";
+  const hour12 = hourNum % 12 || 12;
+  return `${hour12}:${minute} ${ampm}`;
+}
+
 async function confirmAppointment(appointmentId, btnElement) {
   const date = document.getElementById(`date-${appointmentId}`).value;
-  const time = document.getElementById(`time-${appointmentId}`).value;
+  const rawTime = document.getElementById(`time-${appointmentId}`).value;
 
-  if (!date || !time) {
+  if (!date || !rawTime) {
     alert("Please enter both date and time.");
     return;
   }
+
+  const formattedTime = formatTo12Hour(rawTime);
 
   const studentId = btnElement.getAttribute("data-student-id");
 
@@ -149,10 +159,10 @@ async function confirmAppointment(appointmentId, btnElement) {
       },
       credentials: "include",
       body: JSON.stringify({
-        appoitmentStatus: true, 
+        appoitmentStatus: true,
         studentId,
         date,
-        time,
+        time: formattedTime,
       }),
     }
   );
@@ -199,16 +209,25 @@ async function fetchApprovedAppointments() {
 
       document.getElementById("approvedDateHeading").innerText = "Date";
 
+      // 🧠 Sort by date and time
+      approved.sort((a, b) => {
+        const datetimeA = new Date(`${a.date} ${a.timeSlot || "00:00"}`);
+        const datetimeB = new Date(`${b.date} ${b.timeSlot || "00:00"}`);
+        return datetimeA - datetimeB; // ascending order
+      });
 
       approved.forEach((appointment) => {
-        const rawDate = new Date(appointment.date);
-        const formattedDate = rawDate.toLocaleDateString("en-CA");
+        const formattedDate = appointment.date
+          ? new Date(appointment.date).toLocaleDateString("en-CA")
+          : "Not set";
+
+        const time = appointment.timeSlot || "N/A";
 
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${appointment.studentId?.name || "Unknown"}</td>
           <td>${formattedDate}</td>
-          <td>${appointment.timeSlot || "N/A"}</td>
+          <td>${time}</td>
           <td>${appointment.status}</td>
         `;
         body.appendChild(row);
@@ -221,6 +240,7 @@ async function fetchApprovedAppointments() {
     alert("An error occurred while loading approved appointments.");
   }
 }
+
 
 async function fetchChatUsers() {
   const chatSection = document.getElementById("chatSection");
@@ -267,6 +287,16 @@ async function fetchChatUsers() {
         return;
       }
 
+      // 🧠 Sort students by unread message count
+      data.students.sort((a, b) => {
+        const roomIdA = `${a._id}-${teacherId}`;
+        const roomIdB = `${b._id}-${teacherId}`;
+        const countA = unreadMap[roomIdA] || 0;
+        const countB = unreadMap[roomIdB] || 0;
+        return countB - countA;
+      });
+
+      // Render sorted students
       data.students.forEach((student) => {
         const roomId = `${student._id}-${teacherId}`;
         const unreadCount = unreadMap[roomId] || 0;
