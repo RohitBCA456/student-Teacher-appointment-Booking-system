@@ -128,7 +128,6 @@ async function rejectAppointment(appointmentId, iconElement) {
   }
 }
 
-// ✅ Updated function with AM/PM time formatting
 function formatTo12Hour(time) {
   const [hour, minute] = time.split(":");
   const hourNum = parseInt(hour, 10);
@@ -136,6 +135,51 @@ function formatTo12Hour(time) {
   const hour12 = hourNum % 12 || 12;
   return `${hour12}:${minute} ${ampm}`;
 }
+
+async function confirmReschedule(appointmentId, studentId) {
+  const dateInput = document.getElementById(`resched-date-${appointmentId}`);
+  const timeInput = document.getElementById(`resched-time-${appointmentId}`);
+
+  const date = dateInput.value;
+  const rawTime = timeInput.value;
+
+  if (!date || !rawTime) {
+    alert("Please select both date and time.");
+    return;
+  }
+
+  const formattedTime = formatTo12Hour(rawTime);
+
+  try {
+    const response = await fetch("http://localhost:2000/teacher/appointmentController", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        appoitmentStatus: true,
+        studentId,
+        date,
+        time: formattedTime,
+        reschedule: true, // optional flag for backend
+      }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert("Rescheduled successfully.");
+      fetchApprovedAppointments(); // reload view
+    } else {
+      alert(result.message || "Failed to reschedule.");
+    }
+  } catch (error) {
+    console.error("Reschedule error:", error);
+    alert("An error occurred while rescheduling.");
+  }
+}
+
 
 async function confirmAppointment(appointmentId, btnElement) {
   const date = document.getElementById(`date-${appointmentId}`).value;
@@ -187,13 +231,10 @@ async function fetchApprovedAppointments() {
   body.innerHTML = "";
 
   try {
-    const response = await fetch(
-      "http://localhost:2000/appointment/seeAppointments",
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    );
+    const response = await fetch("http://localhost:2000/appointment/seeAppointments", {
+      method: "GET",
+      credentials: "include",
+    });
 
     const data = await response.json();
 
@@ -203,17 +244,17 @@ async function fetchApprovedAppointments() {
       );
 
       if (approved.length === 0) {
-        body.innerHTML = `<tr><td colspan="4">No approved appointments.</td></tr>`;
+        body.innerHTML = `<tr><td colspan="5">No approved appointments.</td></tr>`;
         return;
       }
 
       document.getElementById("approvedDateHeading").innerText = "Date";
 
-      // 🧠 Sort by date and time
+      // Sort by date and time
       approved.sort((a, b) => {
         const datetimeA = new Date(`${a.date} ${a.timeSlot || "00:00"}`);
         const datetimeB = new Date(`${b.date} ${b.timeSlot || "00:00"}`);
-        return datetimeA - datetimeB; // ascending order
+        return datetimeA - datetimeB;
       });
 
       approved.forEach((appointment) => {
@@ -229,6 +270,11 @@ async function fetchApprovedAppointments() {
           <td>${formattedDate}</td>
           <td>${time}</td>
           <td>${appointment.status}</td>
+          <td>
+            <button class="btn primary-btn" onclick="showRescheduleInputs(this, '${appointment._id}', '${appointment.studentId?._id}')">
+              Reschedule
+            </button>
+          </td>
         `;
         body.appendChild(row);
       });
@@ -240,6 +286,7 @@ async function fetchApprovedAppointments() {
     alert("An error occurred while loading approved appointments.");
   }
 }
+
 
 
 async function fetchChatUsers() {
@@ -354,3 +401,18 @@ async function goToChat(studentId) {
     alert("Could not open chat.");
   }
 }
+
+function showRescheduleInputs(btn, appointmentId, studentId) {
+  const actionTd = btn.closest("td"); // Keep inputs inside the "Actions" column only
+
+  actionTd.innerHTML = `
+    <input type="date" id="resched-date-${appointmentId}" style="margin-bottom: 4px;" />
+    <input type="time" id="resched-time-${appointmentId}" style="margin-bottom: 4px;" />
+    <button class="btn small-btn" 
+            style="background-color: blue; color: white; padding: 4px 8px; border: none; border-radius: 4px;"
+            onclick="confirmReschedule('${appointmentId}', '${studentId}')">
+      Confirm
+    </button>
+  `;
+}
+

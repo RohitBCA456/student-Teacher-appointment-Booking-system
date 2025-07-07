@@ -88,47 +88,43 @@ const loginTeacher = async (req, res) => {
 
 const appointmentController = async (req, res) => {
   try {
+    const { appoitmentStatus, studentId, date, time, reschedule = false } = req.body;
     const teacherId = req.user?._id;
-    const { appoitmentStatus, studentId, date, time } = req.body;
 
-    // Status value: "confirmed" or "rejected"
-    const newStatus = appoitmentStatus ? "confirmed" : "rejected";
-
-    const updateData = {
-      status: newStatus,
-    };
-
-    // Only add date and time if confirming
-    if (appoitmentStatus) {
-      updateData.date = date;
-      updateData.timeSlot = time;
+    if (!studentId) {
+      return res.status(400).json({ message: "Missing student ID." });
     }
 
-    const appointment = await Appointment.findOneAndUpdate(
-      {
-        teacherId: teacherId,
-        studentId: studentId,
-        status: "pending",
-      },
-      updateData,
-      { new: true }
-    );
+    const appointment = await Appointment.findOne({
+      studentId,
+      teacherId,
+      status: { $in: ["pending", "confirmed"] }, // handle both states
+    });
 
     if (!appointment) {
-      return res.status(404).json({
-        success: false,
-        message: "Appointment not found or already processed",
-      });
+      return res.status(404).json({ message: "Appointment not found." });
     }
+
+    // Update fields for confirm or reschedule
+    appointment.status = appoitmentStatus ? "confirmed" : "rejected";
+    if (date) appointment.date = date;
+    if (time) appointment.timeSlot = time;
+
+    await appointment.save();
+
+    const action = reschedule ? "Rescheduled" : (appoitmentStatus ? "Confirmed" : "Rejected");
 
     return res.status(200).json({
       success: true,
-      message: `Appointment ${newStatus} successfully`,
+      message: `Appointment ${action} successfully.`,
+      appointment,
     });
+
   } catch (error) {
+    console.error("Error in appointmentController:", error);
     return res.status(500).json({
       success: false,
-      message: "Internal server error while processing appointment",
+      message: "Internal server error while updating appointment.",
       error: error.message,
     });
   }
