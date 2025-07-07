@@ -53,7 +53,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     const data = await res.json();
     alert(data.message || "Registration complete");
     if(res.ok) {
-          window.location.href="http://127.0.0.1:5500/student%20teacher%20appointment%20app/frontend/login.html";
+          window.location.href="login.html";
     }
   } catch (err) {
     alert("Error registering user");
