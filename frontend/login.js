@@ -8,7 +8,7 @@ document
 
     try {
       // 1. Get user role by email
-      const roleRes = await fetch("http://localhost:2000/auth/getUserRole", {
+      const roleRes = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/auth/getUserRole", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -25,11 +25,11 @@ document
 
       // 2. Decide login endpoint
       if (role === "student") {
-        loginUrl = "http://localhost:2000/student/loginStudent";
+        loginUrl = "https://student-teacher-appointment-booking-pf45.onrender.com/student/loginStudent";
       } else if (role === "teacher") {
-        loginUrl = "http://localhost:2000/teacher/loginTeacher";
+        loginUrl = "https://student-teacher-appointment-booking-pf45.onrender.com/teacher/loginTeacher";
       } else if (role === "admin") {
-        loginUrl = "http://localhost:2000/admin/loginAdmin";
+        loginUrl = "https://student-teacher-appointment-booking-pf45.onrender.com/admin/loginAdmin";
       } else {
         alert("Unknown role");
         return;

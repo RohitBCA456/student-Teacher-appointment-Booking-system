@@ -1,7 +1,7 @@
 async function logout() {
   try {
     const response = await fetch(
-      "http://localhost:2000/teacher/logoutTeacher",
+      "https://student-teacher-appointment-booking-pf45.onrender.com/teacher/logoutTeacher",
       {
         method: "POST",
         headers: {
@@ -41,7 +41,7 @@ async function fetchAppointments() {
 
   try {
     const response = await fetch(
-      "http://localhost:2000/appointment/seeAppointments",
+      "https://student-teacher-appointment-booking-pf45.onrender.com/appointment/seeAppointments",
       {
         method: "GET",
         credentials: "include",
@@ -104,7 +104,7 @@ async function rejectAppointment(appointmentId, iconElement) {
   const studentId = iconElement.getAttribute("data-student-id");
 
   const response = await fetch(
-    `http://localhost:2000/teacher/appointmentController`,
+    `https://student-teacher-appointment-booking-pf45.onrender.com/teacher/appointmentController`,
     {
       method: "PUT",
       headers: {
@@ -151,7 +151,7 @@ async function confirmReschedule(appointmentId, studentId) {
   const formattedTime = formatTo12Hour(rawTime);
 
   try {
-    const response = await fetch("http://localhost:2000/teacher/appointmentController", {
+    const response = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/teacher/appointmentController", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -195,7 +195,7 @@ async function confirmAppointment(appointmentId, btnElement) {
   const studentId = btnElement.getAttribute("data-student-id");
 
   const response = await fetch(
-    `http://localhost:2000/teacher/appointmentController`,
+    `https://student-teacher-appointment-booking-pf45.onrender.com/teacher/appointmentController`,
     {
       method: "PUT",
       headers: {
@@ -231,7 +231,7 @@ async function fetchApprovedAppointments() {
   body.innerHTML = "";
 
   try {
-    const response = await fetch("http://localhost:2000/appointment/seeAppointments", {
+    const response = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/appointment/seeAppointments", {
       method: "GET",
       credentials: "include",
     });
@@ -300,21 +300,21 @@ async function fetchChatUsers() {
   chatBody.innerHTML = "";
 
   try {
-    const currentUserRes = await fetch("http://localhost:2000/auth/getCurrentUser", {
+    const currentUserRes = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/auth/getCurrentUser", {
       method: "GET",
       credentials: "include",
     });
     const currentUserData = await currentUserRes.json();
     const teacherId = currentUserData.user?._id;
 
-    const response = await fetch("http://localhost:2000/message/getStudentMessages", {
+    const response = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/message/getStudentMessages", {
       method: "GET",
       credentials: "include",
     });
 
     const data = await response.json();
 
-    const unreadRes = await fetch("http://localhost:2000/appointment/seeAppointments", {
+    const unreadRes = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/appointment/seeAppointments", {
       method: "GET",
       credentials: "include",
     });
@@ -373,7 +373,7 @@ async function fetchChatUsers() {
 
 async function goToChat(studentId) {
   try {
-    const response = await fetch("http://localhost:2000/auth/getCurrentUser", {
+    const response = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/auth/getCurrentUser", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -387,7 +387,7 @@ async function goToChat(studentId) {
       return;
     }
 
-    await fetch("http://localhost:2000/message/markAsRead", {
+    await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/message/markAsRead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",

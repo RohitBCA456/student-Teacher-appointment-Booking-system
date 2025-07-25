@@ -1,7 +1,7 @@
 async function logout() {
   try {
     const response = await fetch(
-      "http://localhost:2000/student/logoutStudent",
+      "https://student-teacher-appointment-booking-pf45.onrender.com/student/logoutStudent",
       {
         method: "POST",
         headers: {
@@ -28,7 +28,7 @@ async function logout() {
 
 async function searchTeacher() {
   const searchQuery = document.getElementById("searchInput").value;
-  const response = await fetch("http://localhost:2000/student/searchTeacher", {
+  const response = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/student/searchTeacher", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -80,7 +80,7 @@ async function searchTeacher() {
 async function bookAppointment(teacherId) {
   try {
     const response = await fetch(
-      "http://localhost:2000/appointment/sendAppointment",
+      "https://student-teacher-appointment-booking-pf45.onrender.com/appointment/sendAppointment",
       {
         method: "POST",
         headers: {
@@ -119,7 +119,7 @@ async function bookAppointment(teacherId) {
 
 async function seeAppointments() {
   const response = await fetch(
-    "http://localhost:2000/appointment/seeAppointments",
+    "https://student-teacher-appointment-booking-pf45.onrender.com/appointment/seeAppointments",
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -201,7 +201,7 @@ async function seeAppointments() {
 async function deleteAppointment(appointmentId) {
   try {
     const response = await fetch(
-      "http://localhost:2000/appointment/deleteAppointment",
+      "https://student-teacher-appointment-booking-pf45.onrender.com/appointment/deleteAppointment",
       {
         method: "DELETE",
         headers: {
@@ -226,7 +226,7 @@ async function deleteAppointment(appointmentId) {
 
 async function sendMessage(teacherId) {
   try {
-    const response = await fetch("http://localhost:2000/auth/getCurrentUser", {
+    const response = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/auth/getCurrentUser", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -246,7 +246,7 @@ async function sendMessage(teacherId) {
     localStorage.setItem("teacherId", teacherId);
     localStorage.setItem("roomId", roomId);
 
-    const markAsRead = await fetch("http://localhost:2000/message/markAsRead", {
+    const markAsRead = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/message/markAsRead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",

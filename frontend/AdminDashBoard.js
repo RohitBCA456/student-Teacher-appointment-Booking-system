@@ -1,6 +1,6 @@
 async function logout() {
   try {
-    const response = await fetch("http://localhost:2000/admin/logoutAdmin", {
+    const response = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/admin/logoutAdmin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +32,7 @@ async function showTeachers() {
   tbody.innerHTML = "";
 
   try {
-    const response = await fetch("http://localhost:2000/admin/getAllTeachers", {
+    const response = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/admin/getAllTeachers", {
       method: "GET",
       credentials: "include",
     });
@@ -102,7 +102,7 @@ async function saveEdit(saveIcon) {
 
   try {
     const response = await fetch(
-      `http://localhost:2000/admin/editTeacherDetails/${id}`,
+      `https://student-teacher-appointment-booking-pf45.onrender.com/admin/editTeacherDetails/${id}`,
       {
         method: "PUT",
         headers: {
@@ -141,7 +141,7 @@ async function showStudents() {
   tbody.innerHTML = ""; // Clear old data
 
   try {
-    const response = await fetch("http://localhost:2000/admin/getAllStudents", {
+    const response = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/admin/getAllStudents", {
       method: "GET",
       credentials: "include",
     });
@@ -184,7 +184,7 @@ async function deleteStudent(studentId) {
 
   try {
     const response = await fetch(
-      `http://localhost:2000/admin/deleteStudent/${studentId}`,
+      `https://student-teacher-appointment-booking-pf45.onrender.com/admin/deleteStudent/${studentId}`,
       {
         method: "DELETE",
         credentials: "include",
@@ -210,7 +210,7 @@ async function deleteTeacher(teacherId) {
 
   try {
     const response = await fetch(
-      `http://localhost:2000/admin/deleteTeacher/${teacherId}`,
+      `https://student-teacher-appointment-booking-pf45.onrender.com/admin/deleteTeacher/${teacherId}`,
       {
         method: "DELETE",
         credentials: "include",
@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const subject = document.getElementById("teacherSubject").value.trim();
 
       try {
-        const response = await fetch("http://localhost:2000/admin/addTeacher", {
+        const response = await fetch("https://student-teacher-appointment-booking-pf45.onrender.com/admin/addTeacher", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",

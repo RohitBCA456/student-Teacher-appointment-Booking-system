@@ -31,11 +31,11 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
   let url = "";
   if (role === "student") {
-    url = "http://localhost:2000/student/registerStudent";
+    url = "https://student-teacher-appointment-booking-pf45.onrender.com/student/registerStudent";
   } else if (role === "teacher") {
-    url = "http://localhost:2000/teacher/registerTeacher";
+    url = "https://student-teacher-appointment-booking-pf45.onrender.com/teacher/registerTeacher";
   } else if (role === "admin") {
-    url = "http://localhost:2000/admin/registerAdmin";
+    url = "https://student-teacher-appointment-booking-pf45.onrender.com/admin/registerAdmin";
   } else {
     alert("Invalid role selected.");
     return;

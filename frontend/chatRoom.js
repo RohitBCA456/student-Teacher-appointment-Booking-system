@@ -1,4 +1,4 @@
-const socket = io("http://localhost:3000");
+const socket = io("https://student-teacher-appointment-booking-pf45.onrender.com");
 
 const urlParams = new URLSearchParams(window.location.search);
 const teacherId = urlParams.get("teacherId");
@@ -11,7 +11,7 @@ const sendButton = document.getElementById("sendButton");
 const roomId = `${studentId}-${teacherId}`;
 let currentUserId = null;
 
-fetch("http://localhost:2000/auth/getCurrentUser", {
+fetch("https://student-teacher-appointment-booking-pf45.onrender.com/auth/getCurrentUser", {
   credentials: "include",
 })
   .then((res) => res.json())
