@@ -24,7 +24,7 @@ app.use(logger);
 
 app.use(
   cors({
-    origin: "http://127.0.0.1:5500",
+    origin: process.env.ORIGIN,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
