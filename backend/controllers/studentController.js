@@ -99,7 +99,7 @@ const searchTeacher = async (req, res) => {
     // Step 1: Find all teachers with the subject
     const allTeachers = await User.find({
       role: "teacher",
-      subject: { $in: [subject] },
+      subject: { $in: [subject.toLowerCase()] },
     }).select("-password -accessToken");
 
     if (allTeachers.length === 0) {

@@ -25,7 +25,7 @@ const registerTeacher = async (req, res) => {
       email,
       password,
       department,
-      subject,
+      subject: subject.toLowerCase(),
       role: "teacher",
     });
     return res.status(201).json({
