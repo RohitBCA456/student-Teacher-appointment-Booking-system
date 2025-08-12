@@ -18,6 +18,15 @@ const registerStudent = async (req, res) => {
         message: "Invalid email format",
       });
     }
+
+    const user = await User.findOne({ email });
+
+    if (user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "user already exist" });
+    }
+
     const student = await User.create({
       name,
       email,
