@@ -1,12 +1,27 @@
 import mongoose from "mongoose";
 
-const connectDB = async() => {
-          try {
-                    const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}/${process.env.DB_NAME}`)
-                    console.log("Database connected successfully:", connectionInstance.connection.host);
-          } catch (error) {
-                    console.error("Database connection failed:", error);
-          }
-}
+const connectDB = async () => {
+  try {
+    const connectionInstance = await mongoose.connect(
+      `${process.env.MONGODB_URI}/${process.env.DB_NAME}`
+    );
+    console.log(
+      "Database connected successfully:",
+      connectionInstance.connection.host
+    );
+  } catch (error) {
+    console.error("Database connection failed:", error);
+  }
+};
 
+export const closeDB = async () => {
+  await mongoose.disconnect();
+};
+
+export const clearDB = async () => {
+  const collections = mongoose.connection.collections;
+  for (const key in collections) {
+    await collections[key].deleteMany();
+  }
+};
 export { connectDB };

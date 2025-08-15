@@ -3,8 +3,8 @@ import { describe, test, beforeEach } from "node:test";
 import {
   loginStudent,
   logoutStudent,
-} from "../controllers/studentController.js";
-import { User } from "../models/userModel.js";
+} from "../../controllers/studentController.js";
+import { User } from "../../models/userModel.js";
 
 function createRes() {
   let statusCode = null;

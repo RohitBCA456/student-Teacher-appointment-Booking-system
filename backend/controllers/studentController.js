@@ -84,6 +84,7 @@ const loginStudent = async (req, res) => {
       message: "Login successful",
     });
   } catch (error) {
+    console.error("Login error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error while logging in",

@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import { describe, test, beforeEach } from "node:test";
-import { loginStudent } from "../controllers/studentController.js";
-import { User } from "../models/userModel.js";
+import { loginStudent } from "../../controllers/studentController.js";
+import { User } from "../../models/userModel.js";
 
 function createRes() {
   let statusCode = null;
