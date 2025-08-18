@@ -20,6 +20,15 @@ const registerTeacher = async (req, res) => {
         message: "Invalid email format",
       });
     }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(401).json({
+        success: false,
+        message: "User with this email already exists.",
+      });
+    }
+
     const teacher = await User.create({
       name,
       email,
@@ -88,7 +97,13 @@ const loginTeacher = async (req, res) => {
 
 const appointmentController = async (req, res) => {
   try {
-    const { appoitmentStatus, studentId, date, time, reschedule = false } = req.body;
+    const {
+      appoitmentStatus,
+      studentId,
+      date,
+      time,
+      reschedule = false,
+    } = req.body;
     const teacherId = req.user?._id;
 
     if (!studentId) {
@@ -112,14 +127,17 @@ const appointmentController = async (req, res) => {
 
     await appointment.save();
 
-    const action = reschedule ? "Rescheduled" : (appoitmentStatus ? "Confirmed" : "Rejected");
+    const action = reschedule
+      ? "Rescheduled"
+      : appoitmentStatus
+      ? "Confirmed"
+      : "Rejected";
 
     return res.status(200).json({
       success: true,
       message: `Appointment ${action} successfully.`,
       appointment,
     });
-
   } catch (error) {
     console.error("Error in appointmentController:", error);
     return res.status(500).json({
@@ -129,7 +147,6 @@ const appointmentController = async (req, res) => {
     });
   }
 };
-
 
 const logoutTeacher = async (req, res) => {
   try {
